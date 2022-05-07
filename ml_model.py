@@ -40,8 +40,8 @@ def create_simple_model():
     names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
     dataset = read_csv('iris.csv', names=names)
     array = dataset.values
-    X = array[:,0:4]
-    y = array[:,4]
+    X = array[:, 0:4]
+    y = array[:, 4]
     X_train, X_validation, Y_train, Y_validation = train_test_split(
         X, y, test_size=0.20, random_state=1, shuffle=True
     )
@@ -56,7 +56,7 @@ def create_simple_model():
     # Esta línea crea el archivo "pickle" que contiene el modelo predictivo, este 
     # archivo nos va a servir para reconstruir el modelo en el API REST. 
     # --------------------------------------------------------------------------------
-    pickle.dump(model, open('simple_model.pkl','wb'))
+    pickle.dump(model, open('simple_model.pkl', 'wb'))
 
 
 # =======================================================================================

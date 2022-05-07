@@ -38,7 +38,7 @@ db.init_app(app)
 # implementación de un API REST. Cambia el título y la descripción del proeyecto por uno
 # más acorde a lo que hace tu modelo predictivo.
 api = Api(
-    app, 
+    app,
     version='1.0', title='API REST',
     description='API REST para el Modelo de Ciencia de Datos',
 )
@@ -55,7 +55,9 @@ ns = api.namespace('predicciones', description='predicciones')
 # proyecto. 
 # Consulta el script "models.py" para conocer y modificar los mapeos de tablas en la 
 # base de datos.
+
 from db_models import Prediction
+
 db.create_all()
 
 # =======================================================================================
@@ -74,9 +76,9 @@ observacion_repr = api.model('Observacion', {
     'petal_width': fields.Float(description="Anchura del pétalo"),
 })
 
-
 # =======================================================================================
-predictive_model = pickle.load(open('simple_model.pkl','rb'))
+predictive_model = pickle.load(open('simple_model.pkl', 'rb'))
+
 
 # =======================================================================================
 # Las siguientes clases modelan las solicitudes REST al API. Usamos el objeto del espacio
@@ -105,8 +107,8 @@ class PredictionListAPI(Resource):
         # disponibles para consultar la base de datos desde los modelos de Python.
         # https://flask-sqlalchemy.palletsprojects.com/en/2.x/queries/#querying-records
         return [
-            marshall_prediction(prediction) for prediction in Prediction.query.all()
-        ], 200
+                   marshall_prediction(prediction) for prediction in Prediction.query.all()
+               ], 200
 
     # -----------------------------------------------------------------------------------
     # La siguiente línea de código sirve para asegurar que el método POST recibe un
@@ -128,8 +130,8 @@ class PredictionListAPI(Resource):
         # Crea una observación para alimentar el modelo predicitivo, usando los
         # datos de entrada del API.
         model_data = [numpy.array([
-            prediction.sepal_length, prediction.sepal_width, 
-            prediction.petal_length, prediction.petal_width, 
+            prediction.sepal_length, prediction.sepal_width,
+            prediction.petal_length, prediction.petal_width,
         ])]
         prediction.predicted_class = str(predictive_model.predict(model_data)[0])
         print(prediction.predicted_class)
@@ -203,6 +205,7 @@ def marshall_prediction(prediction):
     }
     return response
 
+
 # ---------------------------------------------------------------------------------------
 def trunc(number, digits):
     """ Función utilería para truncar un número a un número de dígitos
@@ -210,4 +213,3 @@ def trunc(number, digits):
     import math
     stepper = 10.0 ** digits
     return math.trunc(stepper * number) / stepper
-    

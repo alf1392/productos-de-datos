@@ -2,8 +2,8 @@
 #                       IEXE Tec - Maestría en Ciencia de Datos 
 #                       Productos de Datos. Proyecto Integrador
 # =======================================================================================
-import math
 from datetime import datetime
+
 from model_api import db
 
 
@@ -26,7 +26,7 @@ class Prediction(db.Model):
     # -----------------------------------------------------------------------------------
     # Declaración de columnas de la tabla. Modifica estas propiedades para que sean
     # más acorde a las variables que componen una observación de tu modelo.
-    
+
     # La columna ID será la llave primaria de la predicción
     prediction_id = db.Column('id', db.Integer, primary_key=True)
 
@@ -62,7 +62,7 @@ class Prediction(db.Model):
         """
         template_str = '<Prediction [{}]: sepal_length={}, sepal_width={}, petal_length={}, petal_width={}, class={}>'
         return template_str.format(
-            str(self.prediction_id) if self.prediction_id else 'NOT COMMITED', 
+            str(self.prediction_id) if self.prediction_id else 'NOT COMMITED',
             self.sepal_length, self.sepal_width, self.petal_length, self.petal_width,
             self.predicted_class or 'No calculado'
         )
