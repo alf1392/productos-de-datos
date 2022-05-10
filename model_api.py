@@ -182,7 +182,7 @@ def _update_observation(prediction_id):
         # ---------------------------------------------------------------------------
 
 
-@ns.route('/<int:prediction_id>', methods=['GET', 'PUT'])
+@ns.route('/<int:prediction_id>', methods=['GET', 'PUT', 'PATCH'])
 class PredictionAPI(Resource):
     """ Manejador de una predicción particular
     """
