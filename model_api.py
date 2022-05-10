@@ -205,13 +205,11 @@ class PredictionAPI(Resource):
             # base de datos a un recurso REST
             return marshall_prediction(prediction), 200
 
-
     @ns.doc({'prediction_id': 'Identificador de la predicción'})
     @ns.expect(classified_observation)
     def put(self, prediction_id):
         """ Este método maneja la actualización de una observación con la clase que
             tiene en la realidad.
-            PUT y PATCH realizan la misma operación.
         """
         return _update_observation(prediction_id)
 

@@ -45,7 +45,7 @@ Instalación
       $ git checkout entregable_n
 
    Donde ``entregable_n`` es el número de entregable:
-   
+
    * ``entregable_2`` contiene los archivos para integrar tu modelo predictivo
    * ``entregable_3`` contiene los archivos para procesar solicitudes POST al modelo
    * ``entregable_4`` contiene los archivos para procesar solicitudes GET del histórico de predicciones
@@ -67,7 +67,7 @@ Ejecución
 
    .. code-block:: console
 
-      $ export FLASK_APP=model_api.py      
+      $ export FLASK_APP=model_api.py
 
 2. Inicia el servidor de pruebas de Flask:
 
@@ -85,8 +85,8 @@ Ejecución
            * Debugger PIN: 216-201-467
            * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 
-3. Abre un navegador en http://127.0.0.1:5000/. 
-   
+3. Abre un navegador en http://127.0.0.1:5000/.
+
    Si usas Cloud9 debes de abrir el firewall de AWS. Consulta los manuales de la clase para saber cómo.
 
 *****
