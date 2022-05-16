@@ -86,6 +86,7 @@ def get_confusion_matrix(predictions):
 
     return result_matrix
 
+
 # =======================================================================================
 if __name__ == '__main__':
     """ Esta función ejecuta el programa de Python cuando se invoca desde 
