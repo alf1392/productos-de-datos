@@ -5,9 +5,9 @@
 # Debes de adaptar este script para integrar tu modelo predictivo.
 # =======================================================================================
 from pandas import read_csv
-from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, f1_score, precision_score, roc_curve, euclidean_distances
 import pickle
 
 
@@ -21,19 +21,19 @@ def create_simple_model():
         tu API REST.
 
         Esta función crea un modelo muy simple usando los datos de Tipos de Flores. Es un
-        modelo muy simple usando el algoritmo de regresión logística. Para este ejemplo 
-        no hay ningún proceso de análisis de variables, entrenamiento o comparación de 
+        modelo muy simple usando el algoritmo de regresión logística. Para este ejemplo
+        no hay ningún proceso de análisis de variables, entrenamiento o comparación de
         múltiples modelos, etc. Estas actividades son muy importantes y se realizan en una
         etapa posterior a la creación del modelo, en este punto tu modelo ya está entrenado
         y probado, listo para integrarse a un modelo predicitivo.
 
-        Una vez que el modelo se encuentra listo usamos la biblioteca pickle 
+        Una vez que el modelo se encuentra listo usamos la biblioteca pickle
         (https://docs.python.org/3/library/pickle.html) para "guardar" el modelo en un
-        archivo en disco duro. Este archivo contiene el estado del entrenamiento y 
+        archivo en disco duro. Este archivo contiene el estado del entrenamiento y
         pruebas del modelo, de esta forma se "desconecta" del entorno de laboratorio del
         modelo para que se pueda usar en una aplicación de cómputo.
 
-        El archivo en disco duro que contiene el modelo se "recupera" en el API REST, 
+        El archivo en disco duro que contiene el modelo se "recupera" en el API REST,
         quien es responsable de transformar la entrada del API en un formato que sea
         entendible por el modelo.
     """
@@ -47,25 +47,15 @@ def create_simple_model():
         X, y, test_size=0.20, random_state=1, shuffle=True
     )
 
-    # Para este ejemplo creamos un modelo de regresión logística simple
     model = LogisticRegression(solver='liblinear', multi_class='ovr')
     model.fit(X_train, Y_train)
 
-    # Hasta este punto tu modelo debe de estar integrado y funcioando como lo esperas.
-
-    # --------------------------------------------------------------------------------
-    # Esta línea crea el archivo "pickle" que contiene el modelo predictivo, este 
-    # archivo nos va a servir para reconstruir el modelo en el API REST. 
-    # --------------------------------------------------------------------------------
     pickle.dump(model, open('simple_model.pkl', 'wb'))
 
 
 # =======================================================================================
-def get_confusion_matrix(predictions):
-    """ Esta función convierte las predicciones que ya tienen calificación en la matriz
-        de confusión de desempeño del modelo.
-        :param predictions: La lista de predicciones calificadas
-        :return: Un diccionario con la matriz de confusión del modelo
+def get_simple_confusion_matrix(predictions):
+    """
     """
     y_true = []
     y_pred = []
@@ -77,6 +67,18 @@ def get_confusion_matrix(predictions):
         labels.add(prediction.predicted_class)
     labels = list(labels)
     matrix = confusion_matrix(y_true, y_pred, labels=labels)
+    return labels, matrix
+
+
+# =======================================================================================
+def get_confusion_matrix(predictions):
+    """ Esta función convierte las predicciones que ya tienen calificación en la matriz
+        de confusión de desempeño del modelo.
+        :param predictions: La lista de predicciones calificadas
+        :return: Un diccionario con la matriz de confusión del modelo
+    """
+
+    labels, matrix = get_simple_confusion_matrix(predictions)
     result_matrix = {}
 
     for actual_label, row in zip(labels, matrix):
@@ -85,6 +87,22 @@ def get_confusion_matrix(predictions):
             result_matrix[actual_label][label] = int(count)
 
     return result_matrix
+
+
+def get_f1_score(predictions):
+    return 0
+
+
+def get_precision_score(predictions):
+    return 0
+
+
+def get_roc_curve(predictions):
+    return 0
+
+
+def get_euclidean_distances(predictions):
+    return 0
 
 
 # =======================================================================================
