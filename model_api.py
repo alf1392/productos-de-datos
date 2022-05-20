@@ -192,7 +192,7 @@ class ModelPerformanceAPI(Resource):
     @ns.doc({'metric': 'Nombre de la métrica a generar'})
     def get(self, metric):
         """ Estos valores son los que se pueden usar:
-            confusion_matrix, f1_score, precision_score, roc_curve, euclidean_distances
+            confusion_matrix, roc_curve
         """
         if metric == 'confusion_matrix':
             # el método "isnot" de las propiedades del modelo permiten buscar las
@@ -201,26 +201,8 @@ class ModelPerformanceAPI(Resource):
                 Prediction.observed_class.isnot(None)
             ).all()
             return get_confusion_matrix(reported_predictions), 200
-        if metric == 'f1_score':
-            reported_predictions = Prediction.query.filter(
-                Prediction.observed_class.isnot(None)
-            ).all()
-            return get_f1_score(reported_predictions)
-        if metric == 'precision_score':
-            reported_predictions = Prediction.query.filter(
-                Prediction.observed_class.isnot(None)
-            ).all()
-            return get_precision_score(reported_predictions)
         if metric == 'roc_curve':
-            reported_predictions = Prediction.query.filter(
-                Prediction.observed_class.isnot(None)
-            ).all()
-            return get_roc_curve(reported_predictions)
-        if metric == 'euclidean_distances':
-            reported_predictions = Prediction.query.filter(
-                Prediction.observed_class.isnot(None)
-            ).all()
-            return get_euclidean_distances(reported_predictions)
+            return get_roc_curve()
         else:
             return 'Métrica no soportada: {}'.format(metric), 400
 

@@ -4,14 +4,22 @@
 #
 # Debes de adaptar este script para integrar tu modelo predictivo.
 # =======================================================================================
+import numpy as np
+import sklearn
 from pandas import read_csv
+from pandas.core.common import random_state
+from sklearn import svm
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix, f1_score, precision_score, roc_curve, euclidean_distances
+from sklearn.metrics import confusion_matrix, f1_score, precision_score, roc_curve, euclidean_distances, auc
 import pickle
 
 
 # =======================================================================================
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.preprocessing import label_binarize
+
+
 def create_simple_model():
     """ Función para entrenar un modelo simple usando los datos de prueba de tipos de flores
         Consulta la documentación de este famoso conjunto de datos:
@@ -89,21 +97,21 @@ def get_confusion_matrix(predictions):
     return result_matrix
 
 
-def get_f1_score(predictions):
-    return 0
+def get_roc_curve():
+    y = label_binarize(y, classes=[0, 1, 2])
+    n_classes = y.shape[1]
+    classifier = OneVsRestClassifier(
+        svm.SVC(kernel="linear", probability=True, random_state=random_state)
+    )
+    y_score = classifier.fit(X_train, y_train).decision_function(X_test)
 
-
-def get_precision_score(predictions):
-    return 0
-
-
-def get_roc_curve(predictions):
-    return 0
-
-
-def get_euclidean_distances(predictions):
-    return 0
-
+    fpr = dict()
+    tpr = dict()
+    roc_auc = dict()
+    for i in range(n_classes):
+        fpr[i], tpr[i], _ = roc_curve(y_test[:, i], y_score[:, i])
+        roc_auc[i] = auc(fpr[i], tpr[i])
+    return roc_auc
 
 # =======================================================================================
 if __name__ == '__main__':
