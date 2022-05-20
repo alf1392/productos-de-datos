@@ -7,7 +7,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 import pickle
 import numpy
 
-from ml_model import get_confusion_matrix, get_simple_confusion_matrix, get_roc_curve, get_f1_score, get_precision_score, get_euclidean_distances
+from ml_model import get_confusion_matrix, get_simple_confusion_matrix, get_roc_curve
 
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
